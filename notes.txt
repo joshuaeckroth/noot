@@ -1,0 +1,26 @@
+
+Example uses:
+
+$ n I need to buy groceries.
+Added note 1.
+
+$ n Turn in homework by tonight.
+Added note 2.
+
+... time passes
+
+$ ns
+1. I need to buy groceries.
+2. Turn in homework by tonight.
+
+$ ns homework
+2. Turn in homework by tonight. 
+
+$ ne 2
+
+edit last note:
+$ ne -1
+
+edit last note:
+$ ne
+
