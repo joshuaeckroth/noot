@@ -1,13 +1,21 @@
 #ifndef NOTEFILE_H
 #define NOTEFILE_H
 
+#include <map>
 
 class NoteFile
 {
+private:
+	//std::map<int, Note> notes;
+	std::string filename;
+	int lastid;
+
 public:
+	NoteFile();
 	// exists() returns true if the notes file exists;
 	// it does not create it.
 	bool exists() const;
+	std::string getFilename() const;
 	// fetch(int) returns the note with the given id,
 	// which the user probably supplies on the console.
 	// example code:
@@ -19,10 +27,11 @@ public:
 	// } else {
 	//   cout << "Note 5 not found." << endl;
 	// }
-	bool tryFetch(int id, Note& note) const;
-	void remove(const Note& note);
-	void update(const Note& note);
-	int add(const Note& note);
+	//bool tryFetch(int id, Note& note) const;
+	//void remove(const Note& note);
+	//void update(const Note& note);
+	//int add(const Note& note);
+};
 
 #endif
 

@@ -1,6 +1,8 @@
 
 Example uses:
 
+$ nn # new notes file
+
 $ n I need to buy groceries.
 Added note 1.
 

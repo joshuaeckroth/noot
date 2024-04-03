@@ -1,4 +1,6 @@
-
+#include <string>
+#include <unistd.h>
+#include <fstream>
 #include "notefile.h"
 
 NoteFile::NoteFile() {
@@ -20,21 +22,30 @@ NoteFile::NoteFile() {
 	std::string currentdir = cwd;
 	// get user name
 	std::string username = getenv("USER");
-	// if we are in /home/{user} then find the notes file
-	if (currentdir.find("/home/" + username) == 0) {
+	std::string homedir = getenv("HOME");
+	if (currentdir.find(homedir) == 0) {
+		// user is in their home directory or a subdirectory
 		// search for the notes file
-		while (currentdir != "/home") {
+		while (currentdir != homedir) {
 			// check if the file exists
 			std::ifstream file(currentdir + "/.notes.txt");
-			if (file.good()) {
+			if (!file.fail()) {
 				filename = currentdir + "/.notes.txt";
 				break;
 			}
 			// go up a directory
 			currentdir = currentdir.substr(0, currentdir.find_last_of("/"));
 		}
+		if (currentdir == homedir) {
+			// file not found in any subdirectory
+			filename = homedir + "/.notes.txt";
+		}
 	} else {
-		filename = "/home/" + username + "/.notes.txt";
+		filename = homedir + "/.notes.txt";
 	}
+}
+
+std::string NoteFile::getFilename() const {
+	return filename;
 }
 
