@@ -4,6 +4,7 @@
 #include "notefile.h"
 
 NoteFile::NoteFile() {
+	lastid = 0;
 	// filename will be determined by
 	// finding a ".notes.txt" file in
 	// the current directory, and if
@@ -43,9 +44,43 @@ NoteFile::NoteFile() {
 	} else {
 		filename = homedir + "/.notes.txt";
 	}
+	std::ifstream file(filename, std::ios::in | std::ios::binary);
+	if(file.is_open()) {
+		std::string line;
+		std::string body;
+		int id;
+		while (getline(file, line, '\3')) {
+			if(line.empty() || line[0] != '\1') {
+				continue;
+			}
+			// find \2
+			size_t pos = line.find('\2');
+			id = std::stoi(line.substr(1, pos - 1));
+			body = line.substr(pos + 1);
+			Note note;
+			note.setId(id);
+			note.setBody(body);
+			notes.insert(std::pair<int, const Note&>(id, note));
+		}
+		file.close();
+	}
 }
 
 std::string NoteFile::getFilename() const {
 	return filename;
 }
 
+int NoteFile::add(Note& note) {
+	lastid++;
+	note.setId(lastid);
+	notes.insert(std::pair<int, const Note&>(lastid, note));
+	return lastid;
+}
+
+void NoteFile::save() const {
+	std::ofstream file(filename, std::ios::out | std::ios::binary);
+	for (auto it = notes.begin(); it != notes.end(); it++) {
+		file << "\1" << (it->first) << "\2" << (it->second).getBody() << "\3";
+	}
+	file.close();
+}

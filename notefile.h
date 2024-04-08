@@ -2,11 +2,13 @@
 #define NOTEFILE_H
 
 #include <map>
+#include <string>
+#include "note.h"
 
 class NoteFile
 {
 private:
-	//std::map<int, Note> notes;
+	std::map<int, const Note&> notes;
 	std::string filename;
 	int lastid;
 
@@ -30,7 +32,8 @@ public:
 	//bool tryFetch(int id, Note& note) const;
 	//void remove(const Note& note);
 	//void update(const Note& note);
-	//int add(const Note& note);
+	int add(Note& note);
+	void save() const;
 };
 
 #endif
