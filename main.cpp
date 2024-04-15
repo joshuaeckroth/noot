@@ -3,6 +3,8 @@
 #include <iostream>
 #include "notefile.h"
 
+
+
 int main(int argc, char *argv[])
 {
 	std::string progname = argv[0];
@@ -12,9 +14,10 @@ int main(int argc, char *argv[])
 		// create new .notes.txt file here
 		std::ofstream file(".notes.txt");
 		file.close();
+    } else if(progname == "ns") {
+        NoteFile notefile;
 	} else {
 		NoteFile notefile;
-		std::cout << "Loaded notes file: " << notefile.getFilename() << std::endl;
 		if(progname == "n") {
 			std::string notetxt = "";
 			for(int i = 1; i < argc; i++)

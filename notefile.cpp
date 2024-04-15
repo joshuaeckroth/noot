@@ -1,6 +1,7 @@
 #include <string>
 #include <unistd.h>
 #include <fstream>
+#include <iostream>
 #include "notefile.h"
 
 NoteFile::NoteFile() {
@@ -60,6 +61,7 @@ NoteFile::NoteFile() {
 			Note note;
 			note.setId(id);
 			note.setBody(body);
+            lastid = id;
 			notes.insert(std::pair<int, const Note&>(id, note));
 		}
 		file.close();
