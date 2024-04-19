@@ -62,7 +62,7 @@ NoteFile::NoteFile() {
 			note.setId(id);
 			note.setBody(body);
             lastid = id;
-			notes.insert(std::pair<int, const Note&>(id, note));
+			notes.insert(std::pair<int, Note>(id, note));
 		}
 		file.close();
 	}
@@ -75,7 +75,7 @@ std::string NoteFile::getFilename() const {
 int NoteFile::add(Note& note) {
 	lastid++;
 	note.setId(lastid);
-	notes.insert(std::pair<int, const Note&>(lastid, note));
+	notes.insert(std::pair<int, Note>(lastid, note));
 	return lastid;
 }
 
@@ -85,4 +85,26 @@ void NoteFile::save() const {
 		file << "\1" << (it->first) << "\2" << (it->second).getBody() << "\3";
 	}
 	file.close();
+}
+
+std::vector<int> NoteFile::search(const std::string& query) const {
+    std::vector<int> results;
+    std::map<int, Note>::const_iterator it;
+    for (it = notes.begin(); it != notes.end(); it++) {
+        if (query.size() == 0) {
+            results.push_back(it->first);
+        } else if ((it->second).getBody().find(query) != std::string::npos) {
+            results.push_back(it->first);
+        }
+    }
+    return results;
+}
+
+bool NoteFile::tryFetch(int id, Note& note) const {
+    auto it = notes.find(id);
+    if(it == notes.end()) {
+        return false;
+    }
+    note = it->second;
+    return true;
 }

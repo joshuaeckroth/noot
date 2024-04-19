@@ -16,7 +16,7 @@ public:
 	int getId() const;
 	void setBody(const std::string& body);
 	const std::string& getBody() const;
-
+    std::string getPreview() const;
 };
 
 

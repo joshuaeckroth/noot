@@ -16,6 +16,22 @@ int main(int argc, char *argv[])
 		file.close();
     } else if(progname == "ns") {
         NoteFile notefile;
+        std::vector<int> matching_note_ids;
+        if(argc == 1) {
+            matching_note_ids = notefile.search("");
+        } else {
+            matching_note_ids = notefile.search(argv[1]);
+        }
+        std::vector<int>::const_iterator it;
+        for(it = matching_note_ids.begin(); it != matching_note_ids.end(); it++) {
+            int note_id = *it;
+            Note note;
+            if(notefile.tryFetch(note_id, note)) {
+                std::cout << note_id << ". " << note.getPreview() << std::endl;
+            } else {
+                std::cout << "Error: could not fetch note with id " << note_id << std::endl;
+            }
+        }
 	} else {
 		NoteFile notefile;
 		if(progname == "n") {

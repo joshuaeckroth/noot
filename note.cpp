@@ -26,3 +26,13 @@ const std::string& Note::getBody() const {
 	return this->body;
 }
 
+std::string Note::getPreview() const {
+    // find the first occurrence of \n
+    size_t pos = this->body.find("\n");
+    if (pos == std::string::npos) {
+        return this->body;
+    } else {
+        return this->body.substr(0, pos) + " ...";
+    }
+}
+
